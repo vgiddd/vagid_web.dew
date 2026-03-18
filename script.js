@@ -1,6 +1,28 @@
 /* =============================================
-   VAGID PORTFOLIO — script.js
+   VAGID PORTFOLIO — script.js (v3 — enhanced)
    ============================================= */
+
+/* ── Кастомный курсор ── */
+const cursor      = document.getElementById('cursor');
+const cursorTrail = document.getElementById('cursorTrail');
+let trailX = 0, trailY = 0;
+
+document.addEventListener('mousemove', (e) => {
+  if (cursor)      { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; }
+  if (cursorTrail) { cursorTrail.style.left = e.clientX + 'px'; cursorTrail.style.top = e.clientY + 'px'; }
+});
+
+/* ── Scroll Progress Bar ── */
+window.addEventListener('scroll', () => {
+  const bar = document.getElementById('progressBar');
+  if (!bar) return;
+  const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+  bar.style.width = Math.min(pct, 100) + '%';
+
+  // Кнопка наверх
+  const btn = document.getElementById('backToTop');
+  if (btn) btn.classList.toggle('visible', window.scrollY > 400);
+});
 
 /* ── Бургер-меню ── */
 function toggleMob() {
@@ -24,20 +46,14 @@ function closeMob() {
 function _genieClose(menu) {
   _burgerState(false);
   document.body.style.overflow = '';
-
-  // Сначала убираем ссылки
   menu.querySelectorAll('a').forEach(a => {
     a.style.transition = 'opacity 0.15s ease, transform 0.15s ease';
     a.style.opacity = '0';
     a.style.transform = 'translateY(16px) scale(0.92)';
   });
-
-  // Через 120мс запускаем genie закрытие
   setTimeout(() => {
     menu.classList.remove('open');
     menu.classList.add('closing');
-
-    // После окончания анимации — чистим классы и стили
     setTimeout(() => {
       menu.classList.remove('closing');
       menu.querySelectorAll('a').forEach(a => {
@@ -71,32 +87,41 @@ window.addEventListener('scroll', () => {
   const y = window.scrollY;
   const sh1 = document.getElementById('sh1');
   const sh2 = document.getElementById('sh2');
-
   if (sh1) sh1.style.transform = `translateY(${y * 0.1}px)`;
   if (sh2) sh2.style.transform = `translateY(${y * -0.07}px)`;
 });
 
+/* ── Анимация счётчика ── */
+function animateCounter(el, target, duration) {
+  const start = performance.now();
+  const update = (now) => {
+    const progress = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(ease * target);
+    if (progress < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+
 /* ── Scroll reveal ── */
-// Запускаем через 120мс — чтобы страница сначала отрисовалась
 setTimeout(() => {
   const items = document.querySelectorAll('.rv');
 
-  // Скрываем все элементы
   items.forEach(el => {
     el.style.transition = 'opacity 0.65s cubic-bezier(.22,1,.36,1), transform 0.65s cubic-bezier(.22,1,.36,1)';
     el.style.opacity = '0';
     el.style.transform = 'translateY(26px)';
   });
 
-  // IntersectionObserver показывает элементы при попадании в viewport
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
         setTimeout(() => {
           entry.target.style.opacity = '1';
           entry.target.style.transform = 'translateY(0)';
-          // После окончания анимации убираем инлайн стили
-          // чтобы CSS hover (transform, transition) снова работал
+          entry.target.querySelectorAll('[data-target]').forEach(counter => {
+            animateCounter(counter, parseInt(counter.dataset.target, 10), 1200);
+          });
           setTimeout(() => {
             entry.target.style.transform = '';
             entry.target.style.transition = '';

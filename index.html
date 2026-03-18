@@ -9,6 +9,16 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<!-- Кастомный курсор -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Кнопка наверх -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
 <div class="page-wrap">
 
   <nav>
@@ -34,6 +44,9 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-bg"></div>
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+    <div class="hero-orb orb3"></div>
     <div class="sh sh1" id="sh1"></div>
     <div class="sh sh2" id="sh2"></div>
     <div class="hero-content">
@@ -54,8 +67,30 @@
         <a href="#projects" class="btn-f">Посмотреть работы</a>
         <a href="#contact" class="btn-g">Написать мне</a>
       </div>
+      <div class="hero-stats rv">
+        <div class="hstat">
+          <span class="hstat-n" data-target="2">0</span>
+          <span class="hstat-l">Проекта</span>
+        </div>
+        <div class="hstat-div"></div>
+        <div class="hstat">
+          <span class="hstat-n">2025</span>
+          <span class="hstat-l">Год старта</span>
+        </div>
+        <div class="hstat-div"></div>
+        <div class="hstat">
+          <span class="hstat-n">100%</span>
+          <span class="hstat-l">Адаптивность</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <div class="scroll-line"></div>
+      <span>scroll</span>
     </div>
   </section>
+
+  <div class="section-divider"></div>
 
   <!-- НАВЫКИ -->
   <section class="skills-wrap" id="skills">
@@ -105,6 +140,8 @@
     </div>
   </section>
 
+  <div class="section-divider"></div>
+
   <!-- ПРОЕКТЫ -->
   <section class="proj-wrap" id="projects">
     <p class="sec-eye rv">Мои работы</p>
@@ -112,7 +149,7 @@
     <div class="proj-grid">
 
       <div class="pcard rv">
-        <div class="phead">
+        <div class="phead phead--green">
           <div class="phead-lines"></div>
           <span class="plabel">Первый проект</span>
           <div class="picon">🌐</div>
@@ -126,13 +163,13 @@
               <span class="tech">HTML</span>
               <span class="tech">CSS</span>
             </div>
-            <a href="https://github.com/vgiddd/project_one" target="_blank" class="plink">GitHub →</a>
+            <a href="https://vgiddd.github.io/project_one/" target="_blank" class="plink">Открыть →</a>
           </div>
         </div>
       </div>
 
       <div class="pcard rv">
-        <div class="phead">
+        <div class="phead phead--brown">
           <div class="phead-lines"></div>
           <span class="plabel">Лендинг</span>
           <div class="picon">🏗</div>
@@ -154,6 +191,8 @@
 
     </div>
   </section>
+
+  <div class="section-divider"></div>
 
   <!-- КОНТАКТЫ -->
   <section class="contact-wrap" id="contact">
