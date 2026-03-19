@@ -7,10 +7,12 @@ const cursor      = document.getElementById('cursor');
 const cursorTrail = document.getElementById('cursorTrail');
 let trailX = 0, trailY = 0;
 
-document.addEventListener('mousemove', (e) => {
-  if (cursor)      { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; }
-  if (cursorTrail) { cursorTrail.style.left = e.clientX + 'px'; cursorTrail.style.top = e.clientY + 'px'; }
-});
+if (!window.matchMedia('(hover: none)').matches) {
+  document.addEventListener('mousemove', (e) => {
+    if (cursor)      { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; }
+    if (cursorTrail) { cursorTrail.style.left = e.clientX + 'px'; cursorTrail.style.top = e.clientY + 'px'; }
+  });
+}
 
 /* ── Scroll Progress Bar ── */
 window.addEventListener('scroll', () => {
