@@ -250,8 +250,15 @@ if (orderForm) {
       return;
     }
 
+    /* ── Сообщение обязательно ── */
+    if (!msg) {
+      status.textContent = 'Напишите коротко о задаче.';
+      status.className = 'form-status err';
+      return;
+    }
+
     /* ── Фильтр: максимальная длина сообщения ── */
-    if (msg && msg.length > 200) {
+    if (msg.length > 200) {
       status.textContent = `Сообщение слишком длинное — максимум 200 символов (сейчас ${msg.length}).`;
       status.className = 'form-status err';
       return;
