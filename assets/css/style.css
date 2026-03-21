@@ -10,7 +10,7 @@
   --brownl: #c4a882;
   --blue:   #1e3a5f;
   --blue2:  #2a5080;
-  --bluel:  #6a9cc4;
+  --bluel:  #c49450;
   --cream:  #f0ebe3;
   --ink:    #1a1814;
   --pad-x:  clamp(1.25rem, 6vw, 5rem);
@@ -385,13 +385,13 @@ nav {
 .proj-wrap .sec-eye { color: var(--bluel); }
 .proj-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(1rem,2.5vw,1.5rem); }
 .pcard {
-  background: var(--blue2); border: 1px solid rgba(106,156,196,0.13);
+  background: rgba(70,50,20,0.8); border: 1px solid rgba(196,148,80,0.25);
   border-radius: 20px; overflow: hidden;
   transition: transform .4s cubic-bezier(0.34,1.56,0.64,1), border-color .3s, box-shadow .4s;
 }
 .pcard:hover {
   transform: translateY(-10px) scale(1.02);
-  border-color: rgba(106,156,196,0.45);
+  border-color: rgba(196,148,80,0.55);
   box-shadow: 0 24px 56px rgba(0,0,0,0.4), 0 8px 20px rgba(30,58,95,0.5), 0 0 0 1px rgba(106,156,196,0.15);
 }
 .phead { height: clamp(120px,18vw,185px); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
@@ -417,7 +417,7 @@ nav {
 .pdesc { font-size: clamp(0.78rem,1.6vw,0.83rem); color: rgba(240,235,227,0.5); line-height: 1.8; margin-bottom: 1.2rem; }
 .pfoot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
 .techs { display: flex; gap: 5px; flex-wrap: wrap; }
-.tech { font-size: clamp(0.6rem,1.2vw,0.67rem); background: rgba(106,156,196,0.1); border: 1px solid rgba(106,156,196,0.18); color: var(--bluel); padding: 3px 10px; border-radius: 100px; }
+.tech { font-size: clamp(0.6rem,1.2vw,0.67rem); background: rgba(196,148,80,0.1); border: 1px solid rgba(196,148,80,0.2); color: var(--bluel); padding: 3px 10px; border-radius: 100px; }
 .plink { font-size: clamp(0.62rem,1.3vw,0.7rem); color: var(--bluel); text-decoration: none; letter-spacing: 0.07em; text-transform: uppercase; transition: color .2s; white-space: nowrap; }
 .plink:hover { color: var(--cream); }
 
@@ -432,7 +432,7 @@ nav {
 .soc {
   display: flex; align-items: center; gap: clamp(0.6rem,1.5vw,1rem);
   padding: clamp(0.7rem,1.8vw,0.95rem) clamp(0.8rem,2vw,1.2rem);
-  background: rgba(240,235,227,0.04); border: 1px solid rgba(240,235,227,0.07);
+  background: rgba(70,50,20,0.75); border: 1px solid rgba(196,148,80,0.2);
   border-radius: 16px; text-decoration: none; color: var(--cream);
   transition: background .2s, border-color .25s, transform .3s cubic-bezier(0.34,1.56,0.64,1), box-shadow .3s;
 }
@@ -476,7 +476,7 @@ footer::before {
   .sk { cursor: none; }
   .burger { cursor: none; }
   .sk:active { background: var(--brown2); border-color: rgba(240,235,227,0.28); transform: translateY(-8px) scale(1.05); box-shadow: 0 16px 32px rgba(0,0,0,0.4), 0 6px 12px rgba(0,0,0,0.25); }
-  .pcard:active { transform: translateY(-6px) scale(1.02); border-color: rgba(106,156,196,0.45); box-shadow: 0 14px 30px rgba(0,0,0,0.35); }
+  .pcard:active { transform: translateY(-6px) scale(1.02); border-color: rgba(196,148,80,0.55); box-shadow: 0 14px 30px rgba(0,0,0,0.35); }
   .soc:active { background: rgba(240,235,227,0.09); transform: translateY(-3px) scale(1.02); }
   .btn-f:active { transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 20px rgba(107,76,53,0.4); }
   .btn-g:active { transform: translateY(-3px) scale(1.03); }
@@ -513,8 +513,8 @@ footer::before {
   color: var(--brownl);
 }
 .form-card {
-  background: rgba(26,24,20,0.55);
-  border: 1px solid rgba(196,168,130,0.15);
+  background: rgba(70,50,20,0.75);
+  border: 1px solid rgba(196,148,80,0.25);
   border-radius: 20px;
   padding: clamp(1.5rem, 3vw, 2.2rem);
   backdrop-filter: blur(12px);
