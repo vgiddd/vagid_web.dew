@@ -343,7 +343,10 @@
             <input type="text" class="form-inp" id="fphone" placeholder="+7 900 000 00 00" maxlength="20">
           </div>
           <label class="form-label">Сообщение</label>
-          <textarea class="form-inp form-ta" id="fmsg" placeholder="Коротко о задаче..." maxlength="200"></textarea>
+          <div class="form-ta-wrap">
+            <textarea class="form-inp form-ta" id="fmsg" placeholder="Коротко о задаче..." maxlength="200"></textarea>
+            <span class="msg-counter" id="msgCounter">0/200</span>
+          </div>
           <button type="submit" class="form-btn">Отправить заявку →</button>
           <p class="form-status" id="formStatus"></p>
         </form>

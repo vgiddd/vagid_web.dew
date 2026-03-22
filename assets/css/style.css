@@ -577,6 +577,12 @@ footer::before {
   background: rgba(240,235,227,0.07);
 }
 .form-ta { resize: vertical; min-height: 90px; }
+.form-ta-wrap { position: relative; width: 100%; }
+.form-ta-wrap .form-ta { width: 100%; box-sizing: border-box; padding-bottom: 26px; }
+.msg-counter { position: absolute; bottom: 9px; right: 12px; font-size: 0.68rem; color: rgba(240,235,227,0.45); pointer-events: none; }
+.msg-counter.warn { color: #e07c3a; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+.shake { animation: shake 0.35s ease; }
 .form-btn {
   background: var(--brownl);
   color: var(--ink);
@@ -605,6 +611,16 @@ footer::before {
 }
 .form-status.ok  { color: #7ec88a; }
 .form-status.err { color: #e07070; }
+.form-status.err-wrap { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.err-chip {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  background: rgba(224,112,112,0.12);
+  border: 1px solid rgba(224,112,112,0.35);
+  color: #e07070;
+  border-radius: 20px;
+  font-size: 0.78rem;
+}
 
 @media (max-width: 900px) {
   .sh1, .sh2 { display: none; }

@@ -214,6 +214,23 @@ document.querySelectorAll('.ctab').forEach(btn => {
 window.addEventListener('DOMContentLoaded', updateTgPhoneField);
 updateTgPhoneField();
 
+/* ── Счётчик символов в сообщении ── */
+const fmsg = document.getElementById('fmsg');
+const msgCounter = document.getElementById('msgCounter');
+if (fmsg && msgCounter) {
+  fmsg.addEventListener('input', () => {
+    const len = fmsg.value.length;
+    msgCounter.textContent = `${len}/200`;
+    msgCounter.classList.toggle('warn', len >= 180);
+  });
+  fmsg.addEventListener('keydown', (e) => {
+    if (fmsg.value.length >= 200 && e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
+      fmsg.classList.add('shake');
+      fmsg.addEventListener('animationend', () => fmsg.classList.remove('shake'), { once: true });
+    }
+  });
+}
+
 const orderForm = document.getElementById('orderForm');
 if (orderForm) {
   orderForm.addEventListener('submit', async (e) => {
@@ -255,13 +272,12 @@ if (orderForm) {
       else if (!/^\+?[\d\s\-\(\)]{7,15}$/.test(phone))   errors.push('Введите корректный номер телефона.');
     }
 
-    if (!msg)                              errors.push('Напишите коротко о задаче.');
-    else if (emojiRatio(msg) > 0.5)       errors.push('Сообщение не должно состоять из эмодзи.');
-    else if (msg.length > 200)            errors.push(`Сообщение слишком длинное — максимум 200 символов (сейчас ${msg.length}).`);
+    if (!msg)                        errors.push('Напишите коротко о задаче.');
+    if (msg && emojiRatio(msg) > 0.5) errors.push('Сообщение не должно состоять из эмодзи.');
 
     if (errors.length > 0) {
-      status.innerHTML = errors.map(e => `• ${e}`).join('<br>');
-      status.className = 'form-status err';
+      status.innerHTML = errors.map(e => `<span class="err-chip">${e}</span>`).join('');
+      status.className = 'form-status err-wrap';
       return;
     }
 
@@ -278,8 +294,8 @@ if (orderForm) {
       });
       const aiData = await aiRes.json();
       if (!aiData.ok) {
-        status.textContent = 'Сообщение не прошло проверку. Опишите задачу подробнее.';
-        status.className = 'form-status err';
+        status.innerHTML = '<span class="err-chip">Сообщение некорректно, пожалуйста исправьте и попробуйте снова.</span>';
+        status.className = 'form-status err-wrap';
         btn.disabled = false;
         return;
       }
