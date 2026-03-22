@@ -225,48 +225,9 @@ if (orderForm) {
     const status  = document.getElementById('formStatus');
     const btn     = orderForm.querySelector('.form-btn');
 
-    /* ── Фильтр: имя ── */
-    if (name && name.length < 2) {
-      status.textContent = 'Имя слишком короткое — минимум 2 символа.';
-      status.className = 'form-status err';
-      return;
-    }
+    /* ── Сбор всех ошибок сразу ── */
+    const errors = [];
 
-    /* ── Фильтр: контакт обязателен ── */
-    if (!contact) {
-      status.textContent = 'Укажите контакт для связи.';
-      status.className = 'form-status err';
-      return;
-    }
-
-    /* ── Фильтр: телефон обязателен при Telegram ── */
-    if (activeTab === 'tg') {
-      if (!phone) {
-        status.textContent = 'Укажите номер телефона — на случай если не смогу написать в TG.';
-        status.className = 'form-status err';
-        return;
-      }
-      if (!/^\+?[\d\s\-\(\)]{7,15}$/.test(phone)) {
-        status.textContent = 'Введите корректный номер телефона.';
-        status.className = 'form-status err';
-        return;
-      }
-    }
-
-    /* ── Фильтр: валидация формата контакта ── */
-    const contactValidators = {
-      tg:    /^(@[\w\d_]{4,}|https?:\/\/t\.me\/[\w\d_]{4,})$/i,
-      wa:    /^\+?[\d\s\-\(\)]{7,15}$/,
-      email: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
-    };
-    if (contactValidators[activeTab] && !contactValidators[activeTab].test(contact)) {
-      const hints = { tg: 'Укажите @username или t.me/username', wa: 'Укажите номер телефона', email: 'Укажите корректный email' };
-      status.textContent = hints[activeTab];
-      status.className = 'form-status err';
-      return;
-    }
-
-    /* ── Фильтр: антиэмодзи-спам ── */
     function emojiRatio(str) {
       if (!str) return 0;
       const emojiRegex = /\p{Emoji_Presentation}|\p{Extended_Pictographic}/gu;
@@ -274,22 +235,32 @@ if (orderForm) {
       const words  = str.replace(emojiRegex, '').trim().length;
       return words === 0 ? 1 : emojis / (emojis + words);
     }
-    if (emojiRatio(msg) > 0.5 || emojiRatio(name) > 0.5) {
-      status.textContent = 'Пожалуйста, напишите нормальное сообщение.';
-      status.className = 'form-status err';
-      return;
+
+    if (name && name.length < 2)          errors.push('Имя слишком короткое — минимум 2 символа.');
+    if (emojiRatio(name) > 0.5)           errors.push('Имя не должно состоять из эмодзи.');
+    if (!contact)                          errors.push('Укажите контакт для связи.');
+
+    const contactValidators = {
+      tg:    /^(@[\w\d_]{4,}|https?:\/\/t\.me\/[\w\d_]{4,})$/i,
+      wa:    /^\+?[\d\s\-\(\)]{7,15}$/,
+      email: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+    };
+    if (contact && contactValidators[activeTab] && !contactValidators[activeTab].test(contact)) {
+      const hints = { tg: 'Укажите @username или t.me/username', wa: 'Укажите номер телефона', email: 'Укажите корректный email' };
+      errors.push(hints[activeTab]);
     }
 
-    /* ── Сообщение обязательно ── */
-    if (!msg) {
-      status.textContent = 'Напишите коротко о задаче.';
-      status.className = 'form-status err';
-      return;
+    if (activeTab === 'tg') {
+      if (!phone)                                          errors.push('Укажите номер телефона — на случай если не смогу написать в TG.');
+      else if (!/^\+?[\d\s\-\(\)]{7,15}$/.test(phone))   errors.push('Введите корректный номер телефона.');
     }
 
-    /* ── Фильтр: максимальная длина сообщения ── */
-    if (msg.length > 200) {
-      status.textContent = `Сообщение слишком длинное — максимум 200 символов (сейчас ${msg.length}).`;
+    if (!msg)                              errors.push('Напишите коротко о задаче.');
+    else if (emojiRatio(msg) > 0.5)       errors.push('Сообщение не должно состоять из эмодзи.');
+    else if (msg.length > 200)            errors.push(`Сообщение слишком длинное — максимум 200 символов (сейчас ${msg.length}).`);
+
+    if (errors.length > 0) {
+      status.innerHTML = errors.map(e => `• ${e}`).join('<br>');
       status.className = 'form-status err';
       return;
     }
