@@ -253,6 +253,16 @@ if (orderForm) {
       return words === 0 ? 1 : emojis / (emojis + words);
     }
 
+    /* ── Запускаем AI проверку сразу параллельно ── */
+    const msgOkForAI = msg && emojiRatio(msg) <= 0.5;
+    const aiPromise = msgOkForAI
+      ? fetch('https://vagid-ai-checker.mamedarovvagid600.workers.dev/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: msg })
+        }).then(r => r.json()).catch(() => null)
+      : Promise.resolve(null);
+
     if (name && name.length < 2)          errors.push('Имя слишком короткое — минимум 2 символа.');
     if (emojiRatio(name) > 0.5)           errors.push('Имя не должно состоять из эмодзи.');
     if (!contact)                          errors.push('Укажите контакт для связи.');
@@ -272,35 +282,24 @@ if (orderForm) {
       else if (!/^\+?[\d\s\-\(\)]{7,15}$/.test(phone))   errors.push('Введите корректный номер телефона.');
     }
 
-    if (!msg)                        errors.push('Напишите коротко о задаче.');
+    if (!msg)                         errors.push('Напишите коротко о задаче.');
     if (msg && emojiRatio(msg) > 0.5) errors.push('Сообщение не должно состоять из эмодзи.');
+
+    /* ── Ждём AI и добавляем ошибку в общий список ── */
+    btn.disabled = true;
+    status.textContent = 'Проверяю...';
+    status.className = 'form-status';
+
+    const aiData = await aiPromise;
+    if (aiData && !aiData.ok) {
+      errors.push('Сообщение некорректно, пожалуйста исправьте и попробуйте снова.');
+    }
 
     if (errors.length > 0) {
       status.innerHTML = errors.map(e => `<span class="err-chip">${e}</span>`).join('');
       status.className = 'form-status err-wrap';
+      btn.disabled = false;
       return;
-    }
-
-    btn.disabled = true;
-    status.textContent = 'Проверяю сообщение...';
-    status.className = 'form-status';
-
-    /* ── AI проверка через Cloudflare Worker ── */
-    try {
-      const aiRes = await fetch('https://vagid-ai-checker.mamedarovvagid600.workers.dev/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: msg })
-      });
-      const aiData = await aiRes.json();
-      if (!aiData.ok) {
-        status.innerHTML = '<span class="err-chip">Сообщение некорректно, пожалуйста исправьте и попробуйте снова.</span>';
-        status.className = 'form-status err-wrap';
-        btn.disabled = false;
-        return;
-      }
-    } catch {
-      /* если AI недоступен — пропускаем проверку */
     }
 
     status.textContent = 'Отправляю...';
