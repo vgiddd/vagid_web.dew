@@ -295,8 +295,26 @@ if (orderForm) {
     }
 
     btn.disabled = true;
-    status.textContent = 'Отправляю...';
+    status.textContent = 'Проверяю сообщение...';
     status.className = 'form-status';
+
+    /* ── AI проверка через Cloudflare Worker ── */
+    try {
+      const aiRes = await fetch('https://vagid-ai-checker.mamedarovvagid600.workers.dev/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg })
+      });
+      const aiData = await aiRes.json();
+      if (!aiData.ok) {
+        status.textContent = 'Сообщение не прошло проверку. Опишите задачу подробнее.';
+        status.className = 'form-status err';
+        btn.disabled = false;
+        return;
+      }
+    } catch {
+      /* если AI недоступен — пропускаем проверку */
+    }
 
     status.textContent = 'Отправляю...';
 
