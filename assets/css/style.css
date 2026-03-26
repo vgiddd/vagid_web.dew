@@ -143,7 +143,7 @@ body:has(button:hover) .cursor-trail { width: 48px; height: 48px; opacity: 0.6; 
 /* NAV */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  display: flex; justify-content: space-between; align-items: center;
+  display: flex; justify-content: flex-start; align-items: center; gap: clamp(1.2rem, 3vw, 2.5rem);
   padding: 1rem var(--pad-x);
   background: rgba(26,24,20,0.75);
   backdrop-filter: blur(20px) saturate(160%);
@@ -166,15 +166,39 @@ nav {
 }
 .nav-links a:hover { color: var(--cream); transform: translateY(-2px) scale(1.08); }
 
-.lang-sw { display: flex; gap: 4px; align-items: center; margin-right: 4px; }
-.lang-btn {
-  background: none; border: 1px solid rgba(196,148,80,0.2);
-  color: rgba(240,235,227,0.45); border-radius: 8px;
-  padding: 4px 10px; font-size: 0.7rem; letter-spacing: 0.08em;
-  cursor: pointer; transition: all 0.2s; font-family: var(--sans);
+/* ── Lang Switcher Dropdown ── */
+.lang-sw { position: relative; margin-left: auto; margin-right: 4px; }
+.lang-drop-btn {
+  display: flex; align-items: center; gap: 5px;
+  background: none; border: 1px solid rgba(196,148,80,0.3);
+  color: var(--cream); border-radius: 8px;
+  padding: 5px 10px; font-size: 0.7rem; letter-spacing: 0.1em;
+  cursor: pointer; transition: border-color 0.2s; font-family: var(--sans);
 }
-.lang-btn.active { border-color: rgba(196,148,80,0.55); color: var(--cream); background: rgba(196,148,80,0.1); }
-@media (hover: hover) { .lang-btn:hover { border-color: rgba(196,148,80,0.4); color: rgba(240,235,227,0.8); } }
+.lang-chevron { transition: transform 0.2s ease; flex-shrink: 0; }
+.lang-sw.open .lang-chevron { transform: rotate(180deg); }
+.lang-drop {
+  position: absolute; top: calc(100% + 7px); right: 0;
+  background: rgba(22,20,16,0.97); border: 1px solid rgba(196,148,80,0.2);
+  border-radius: 10px; overflow: hidden; min-width: 68px;
+  opacity: 0; transform: translateY(-6px) scale(0.96);
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  backdrop-filter: blur(20px);
+  z-index: 300;
+}
+.lang-sw.open .lang-drop { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+.lang-opt {
+  display: block; width: 100%; padding: 9px 14px;
+  background: none; border: none; color: rgba(240,235,227,0.45);
+  font-size: 0.7rem; letter-spacing: 0.1em; text-align: center;
+  cursor: pointer; font-family: var(--sans); transition: color 0.15s, background 0.15s;
+}
+.lang-opt.active { color: var(--cream); background: rgba(196,148,80,0.1); }
+@media (hover: hover) {
+  .lang-drop-btn:hover { border-color: rgba(196,148,80,0.55); }
+  .lang-opt:hover { background: rgba(240,235,227,0.06); color: var(--cream); }
+}
 
 .burger { display: none; flex-direction: column; gap: 5px; cursor: none; padding: 4px; }
 .burger span { display: block; width: 22px; height: 2px; background: var(--cream); border-radius: 99px; transition: transform .3s, opacity .3s; }

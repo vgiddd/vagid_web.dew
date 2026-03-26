@@ -164,8 +164,10 @@ function setLang(lang) {
     if (t[key] !== undefined) el.placeholder = t[key];
   });
 
-  // lang switcher buttons
-  document.querySelectorAll('.lang-btn').forEach(btn => {
+  // lang switcher dropdown
+  const current = document.getElementById('langCurrent');
+  if (current) current.textContent = lang.toUpperCase();
+  document.querySelectorAll('.lang-opt').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.lang === lang);
   });
 
@@ -179,7 +181,15 @@ function setLang(lang) {
   const lang    = saved || (browser === 'ru' ? 'ru' : 'en');
   setLang(lang);
 
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => setLang(btn.dataset.lang));
+  // Dropdown toggle
+  const sw  = document.getElementById('langSw');
+  const btn = document.getElementById('langDropBtn');
+  if (sw && btn) {
+    btn.addEventListener('click', (e) => { e.stopPropagation(); sw.classList.toggle('open'); });
+    document.addEventListener('click', () => sw.classList.remove('open'));
+  }
+
+  document.querySelectorAll('.lang-opt').forEach(opt => {
+    opt.addEventListener('click', () => { setLang(opt.dataset.lang); sw.classList.remove('open'); });
   });
 })();
