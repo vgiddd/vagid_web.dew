@@ -157,7 +157,7 @@ nav {
 }
 .nav-logo:hover { transform: scale(1.08); }
 .nav-logo span { color: var(--brownl); text-shadow: 0 0 12px rgba(196,168,130,0.5); }
-.nav-links { display: flex; gap: clamp(1rem,3vw,2.5rem); list-style: none; }
+.nav-links { display: flex; gap: clamp(1rem,3vw,2.5rem); list-style: none; margin-left: auto; }
 .nav-links a {
   color: rgba(240,235,227,0.45); text-decoration: none;
   font-size: clamp(0.65rem,1.2vw,0.73rem); letter-spacing: 0.12em; text-transform: uppercase;
@@ -167,7 +167,7 @@ nav {
 .nav-links a:hover { color: var(--cream); transform: translateY(-2px) scale(1.08); }
 
 /* ── Lang Switcher Dropdown ── */
-.lang-sw { position: relative; margin-left: auto; margin-right: 4px; }
+.lang-sw { position: relative; margin-right: 4px; }
 .lang-drop-btn {
   display: flex; align-items: center; gap: 5px;
   background: none; border: 1px solid rgba(196,148,80,0.3);
@@ -716,6 +716,7 @@ footer::before {
 @media (max-width: 640px) {
   .nav-links { display: none; }
   .burger    { display: flex; }
+  .lang-sw   { margin-left: auto; margin-right: 8px; }
   .hero-btns { flex-direction: column; }
   .btn-f, .btn-g { width: 100%; text-align: center; }
   .hero-stats { gap: clamp(0.8rem,3vw,1.2rem); }
