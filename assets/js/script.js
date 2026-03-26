@@ -336,3 +336,50 @@ if (orderForm) {
     }
   });
 }
+
+/* ── Раскрытие описания навыка по клику ── */
+document.querySelectorAll('.sk').forEach(el => {
+  el.addEventListener('click', () => {
+    const isOpen = el.classList.contains('sk--open');
+    document.querySelectorAll('.sk.sk--open').forEach(o => o.classList.remove('sk--open'));
+    if (!isOpen) {
+      el.classList.add('sk--open');
+      if (isTouchDevice) {
+        el.classList.remove('sk--bounce');
+        void el.offsetWidth; // reflow для перезапуска анимации
+        el.classList.add('sk--bounce');
+        el.addEventListener('animationend', () => el.classList.remove('sk--bounce'), { once: true });
+      }
+    }
+  });
+});
+// клик вне карточек — закрыть все
+document.addEventListener('click', e => {
+  if (!e.target.closest('.sk')) {
+    document.querySelectorAll('.sk.sk--open').forEach(o => o.classList.remove('sk--open'));
+  }
+});
+
+/* ── 3D Tilt (только pointer: fine — мышь, не тач) ── */
+if (window.matchMedia('(pointer: fine)').matches) {
+  function tilt3D(selector, maxTilt, liftY, sc, persp) {
+    document.querySelectorAll(selector).forEach(el => {
+      el.addEventListener('mousemove', e => {
+        const r  = el.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width  / 2)) / (r.width  / 2);
+        const dy = (e.clientY - (r.top  + r.height / 2)) / (r.height / 2);
+        const rX = (-dy * maxTilt).toFixed(2);
+        const rY = ( dx * maxTilt).toFixed(2);
+        el.style.transition = 'box-shadow .3s, background .25s, border-color .25s';
+        el.style.transform  = `perspective(${persp}px) translateY(${liftY}px) rotateX(${rX}deg) rotateY(${rY}deg) scale(${sc})`;
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.transition = '';
+        el.style.transform  = '';
+      });
+    });
+  }
+  tilt3D('.sk',    14, -14, 1.07,  900);
+  tilt3D('.pcard', 10, -12, 1.035, 1100);
+  tilt3D('.soc',    7,  -5, 1.03,  900);
+}
