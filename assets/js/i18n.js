@@ -44,6 +44,8 @@ const i18n = {
     'proj.card2.desc': 'Лендинг для строительной компании: тарифы, варианты домов, форма заявки. Полностью адаптивный на любом экране.',
     'proj.card3.label':'Портфолио',
     'proj.card3.desc': 'Сайт-портфолио для дизайнера упаковки и этикеток. Каталог работ, описание услуг и форма заявки — всё на одной странице.',
+    'proj.card4.label':'Визитка',
+    'proj.card4.desc': 'Сайт-визитка для бизнес-консультанта по маркетингу: услуги, кейсы и форма обратной связи на одной странице.',
     'proj.link.open':  'Открыть →',
 
     'soc.eye':   'Мои соц сети',
@@ -116,6 +118,8 @@ const i18n = {
     'proj.card2.desc': 'A landing page for a construction company: pricing, house options, contact form. Fully responsive on any screen.',
     'proj.card3.label':'Portfolio',
     'proj.card3.desc': 'Portfolio site for a packaging and label designer. Work showcase, services and contact form — all on one page.',
+    'proj.card4.label':'Business card',
+    'proj.card4.desc': 'Personal site for a marketing consultant: services, case studies and a contact form — all on one page.',
     'proj.link.open':  'Open →',
 
     'soc.eye':   'My socials',

@@ -468,6 +468,7 @@ nav {
 .rye-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 .phead--brown { background: linear-gradient(135deg, #3d2414 0%, #5c3520 50%, #3a2010 100%); }
 .phead--indigo { background: linear-gradient(135deg, #12102a 0%, #1e1a40 50%, #0e0c22 100%); }
+.phead--slate  { background: linear-gradient(135deg, #0f1117 0%, #1c2128 50%, #0a0d11 100%); }
 .phead-lines {
   position: absolute; inset: 0;
 }
