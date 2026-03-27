@@ -726,6 +726,7 @@ footer::before {
   .sh1, .sh2 { display: none; }
   .sk-grid { grid-template-columns: repeat(2, 1fr); }
   .hero-scroll-hint { display: none; }
+  .sk-name { min-height: 2.6em; }
 }
 
 @media (max-width: 640px) {
